@@ -1,0 +1,40 @@
+.footer {
+  background: var(--navy-950);
+  color: #c9d2e0;
+  padding-top: var(--space-7);
+  /* Footer is always dark: override tokens locally */
+  --heading: #f8fafc;
+  --accent-ink: var(--amber-400);
+  --border: rgb(255 255 255 / 0.1);
+}
+.grid { display: grid; gap: var(--space-6); }
+@media (min-width: 768px) { .grid { grid-template-columns: 1.4fr 1fr 1.4fr; } }
+
+.tagline { margin-top: var(--space-4); max-width: 34ch; }
+.slogan { margin-top: var(--space-2); color: var(--amber-400); font-weight: 600; }
+
+.links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1rem; }
+.links a { display: inline-flex; min-height: 44px; align-items: center; transition: color 0.2s; }
+.links a:hover { color: var(--amber-400); }
+
+.contact { display: grid; gap: 0.75rem; align-content: start; }
+.contact p { display: flex; gap: 0.6rem; align-items: flex-start; }
+.contact p svg { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.3rem; color: var(--amber-400); }
+.wa {
+  display: inline-flex; align-items: center; gap: 0.6rem; justify-self: start;
+  min-height: 48px; padding: 0.5rem 1.1rem; border-radius: 999px;
+  background: var(--wa); color: #fff; font-weight: 600;
+}
+.wa:hover { background: var(--wa-hover); }
+.fb { text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+
+.bottom {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem;
+  margin-top: var(--space-7); padding-block: var(--space-5);
+  border-top: 1px solid var(--border);
+  font-size: var(--step--1); color: #9aa6b8;
+}
+/* Room for the sticky WhatsApp bar on mobile */
+@media (max-width: 899px) { .bottom { padding-bottom: calc(var(--space-5) + var(--mobile-bar-h) + env(safe-area-inset-bottom)); } }
+.note { opacity: 0.85; }
+.credit { text-decoration: underline; text-underline-offset: 3px; }

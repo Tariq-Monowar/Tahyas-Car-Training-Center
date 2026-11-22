@@ -1,0 +1,26 @@
+.inner { max-width: 52rem; }
+.list { display: grid; gap: var(--space-3); }
+.item {
+  border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.item[open] { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); box-shadow: var(--shadow-md); }
+.item summary {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--space-4);
+  min-height: 3.5rem; padding: 0.75rem 1.25rem; cursor: pointer; list-style: none;
+  font-weight: 600; color: var(--heading); font-size: var(--step-1); line-height: 1.5;
+}
+.item summary::-webkit-details-marker { display: none; }
+.item summary svg { flex: none; width: 1.3rem; height: 1.3rem; transition: transform 0.35s var(--ease); color: var(--accent-ink); }
+.item[open] summary svg { transform: rotate(180deg); }
+.answer { padding: 0 1.25rem 1.1rem; color: var(--text-muted); }
+
+/* Smooth open/close where supported (Chrome 131+); instant elsewhere */
+.item::details-content {
+  block-size: 0; overflow: clip;
+  transition: block-size 0.4s var(--ease), content-visibility 0.4s allow-discrete;
+}
+.item[open]::details-content { block-size: auto; }
+
+.link { color: var(--trust); text-decoration: underline; text-underline-offset: 4px; display: inline-flex; min-height: 44px; align-items: center; }
+.more { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); margin-top: var(--space-6); text-align: center; font-weight: 600; }

@@ -1,0 +1,5 @@
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--space-5); }
+.card { padding: var(--space-5); display: grid; gap: var(--space-3); }
+.card blockquote { margin: 0; }
+.quote { width: 2rem; height: 2rem; color: var(--accent); }
+.name { font-weight: 600; color: var(--heading); }

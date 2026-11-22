@@ -1,0 +1,12 @@
+.logo { display: inline-flex; align-items: center; gap: 0.6rem; }
+.mark { flex: none; filter: drop-shadow(0 4px 10px rgb(11 19 36 / 0.35)); }
+.text { display: flex; flex-direction: column; line-height: 1; }
+.word {
+  font-family: var(--font-anek), var(--font-hind), sans-serif;
+  font-weight: 800; font-size: 1.5rem; line-height: 1.15; color: var(--heading);
+}
+.sub {
+  font-family: var(--font-jakarta), sans-serif;
+  font-weight: 800; font-size: 0.58rem; letter-spacing: 0.16em; color: var(--accent-ink);
+  margin-top: 0.15rem;
+}

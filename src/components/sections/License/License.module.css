@@ -1,0 +1,42 @@
+.steps { display: grid; gap: var(--space-4); counter-reset: s; }
+@media (min-width: 640px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.step { position: relative; padding: var(--space-5); display: grid; gap: var(--space-2); align-content: start; }
+.step h3 { font-size: var(--step-1); }
+.icon { width: 2rem; height: 2rem; color: var(--trust); }
+.n {
+  position: absolute; top: 1rem; right: 1.25rem;
+  font-family: var(--font-heading); font-weight: 800; font-size: var(--step-4); line-height: 1;
+  color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.note {
+  display: flex; gap: var(--space-3); align-items: flex-start;
+  margin-top: var(--space-5); padding: var(--space-4) var(--space-5); border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.note svg { flex: none; width: 1.3rem; height: 1.3rem; margin-top: 0.3rem; color: var(--accent-ink); }
+/* Link card to the full licence guide page */
+.guide {
+  display: flex; align-items: center; gap: var(--space-4);
+  max-width: 40rem; margin: var(--space-5) auto 0; padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); color: var(--heading);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s var(--ease);
+}
+.guide:hover { border-color: var(--trust); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.guideIcon {
+  display: grid; place-items: center; flex: none; width: 3.25rem; height: 3.25rem; border-radius: 1rem;
+  background: color-mix(in srgb, var(--trust) 14%, transparent); color: var(--trust);
+}
+.guideIcon svg { width: 1.6rem; height: 1.6rem; }
+.guideText { flex: 1; display: grid; gap: 0.1rem; line-height: 1.45; }
+.guideText strong { font-family: var(--font-heading); font-size: var(--step-1); }
+.guideText span { color: var(--text-muted); font-size: var(--step--1); }
+.guideArrow {
+  display: grid; place-items: center; flex: none; width: 2.75rem; height: 2.75rem; border-radius: 50%;
+  background: var(--trust); color: #fff; transition: transform 0.25s var(--ease);
+}
+.guide:hover .guideArrow { transform: translateX(4px); }
+.guideArrow svg { width: 1.2rem; height: 1.2rem; }
+.cta { display: flex; justify-content: center; margin-top: var(--space-5); }

@@ -1,0 +1,158 @@
+/* ── Hero intro ───────────────────────────────────────────── */
+.intro {
+  position: relative; overflow: hidden;
+  margin-top: calc(var(--header-h) * -1);
+  padding: calc(var(--header-h) + var(--space-7)) 0 var(--space-8);
+  background: var(--navy-900);
+}
+.intro::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 50%, color-mix(in srgb, var(--trust) 18%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 100%, rgb(255 197 49 / 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.crumbs {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: var(--step--1);
+  color: rgb(255 255 255 / 0.45); margin-bottom: var(--space-4);
+}
+.crumbs a { color: rgb(255 255 255 / 0.6); text-decoration: underline; text-underline-offset: 3px; }
+.crumbs a:hover { color: #fff; }
+.title {
+  font-size: clamp(2rem, 1rem + 4vw, 3.25rem); font-weight: 800; color: #fff; max-width: 20ch;
+  line-height: 1.1; letter-spacing: -0.02em;
+}
+.lead { margin-top: var(--space-4); font-size: var(--step-1); color: rgb(255 255 255 / 0.65); max-width: 52ch; }
+
+/* Table of contents */
+.toc { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--space-6); }
+.toc a {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px;
+  padding: 0.4rem 1.1rem 0.4rem 0.4rem; border-radius: 999px;
+  background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.12);
+  font-weight: 600; font-size: var(--step--1); color: rgb(255 255 255 / 0.75);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.toc a:hover { background: rgb(255 255 255 / 0.14); border-color: rgb(255 255 255 / 0.25); color: #fff; }
+.toc a span {
+  display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%;
+  background: var(--trust); color: #fff; font-size: 0.8rem; font-weight: 700; flex: none;
+}
+
+/* ── Section headings ─────────────────────────────────────── */
+.h2 {
+  font-size: var(--step-4); font-weight: 800; margin-bottom: var(--space-2);
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.h2::before {
+  content: attr(data-num); display: grid; place-items: center; flex: none;
+  width: 2.25rem; height: 2.25rem; border-radius: 0.6rem; font-size: 1rem; font-weight: 700;
+  background: color-mix(in srgb, var(--trust) 15%, transparent); color: var(--trust);
+}
+.sub { color: var(--text-muted); font-size: var(--step-0); margin-bottom: var(--space-5); max-width: 60ch; padding-left: 3rem; }
+.box { padding: var(--space-5); }
+.note {
+  display: flex; gap: 0.6rem; align-items: flex-start; margin-top: var(--space-4);
+  color: var(--text-muted); font-size: var(--step--1); max-width: 70ch;
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.note svg { flex: none; width: 1.1rem; height: 1.1rem; margin-top: 0.25rem; color: var(--accent-ink); }
+
+/* ── Signs ────────────────────────────────────────────────── */
+.group { margin-top: var(--space-7); }
+.groupHead {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: var(--space-4);
+  padding-left: var(--space-4); border-left: 3px solid var(--gc, var(--border));
+}
+.groupHead h3 { font-size: var(--step-2); font-weight: 700; }
+.groupHead p { color: var(--text-muted); font-size: var(--step--1); }
+.signs { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+@media (min-width: 640px) { .signs { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1024px) { .signs { grid-template-columns: repeat(5, 1fr); } }
+
+/* Group accent colors on groupHead */
+.group[data-group="prohibitory"] .groupHead { --gc: #d62828; }
+.group[data-group="mandatory"] .groupHead { --gc: #1f5fbf; }
+.group[data-group="warning"] .groupHead { --gc: #c9930a; }
+.group[data-group="informative"] .groupHead { --gc: #0d8a7b; }
+
+/* ── Lane ─────────────────────────────────────────────────── */
+.laneGrid { display: grid; gap: var(--space-6); align-items: center; }
+@media (min-width: 900px) { .laneGrid { grid-template-columns: 1.1fr 0.9fr; } }
+.list { display: grid; gap: var(--space-3); padding-left: 3rem; }
+.list li { display: flex; gap: 0.65rem; align-items: flex-start; }
+.list svg { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.3rem; color: var(--trust); }
+
+/* ── Markings ─────────────────────────────────────────────── */
+.markings { display: grid; gap: var(--space-4); }
+@media (min-width: 768px) { .markings { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .markings { grid-template-columns: repeat(3, 1fr); } }
+.marking { display: flex; gap: var(--space-4); align-items: center; padding: var(--space-4); }
+.marking svg { flex: none; border-radius: 10px; }
+.marking h3 { font-size: var(--step-1); }
+
+/* ── Police ───────────────────────────────────────────────── */
+.police { display: grid; gap: var(--space-4); }
+@media (min-width: 640px) { .police { grid-template-columns: repeat(3, 1fr); } }
+
+.policeCard {
+  display: grid; align-content: start; border-radius: var(--radius-lg);
+  overflow: hidden; background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm); transition: box-shadow 0.25s, transform 0.25s var(--ease);
+}
+.policeCard:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+.policeTop {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: var(--space-3);
+  padding: var(--space-6) var(--space-4) var(--space-5);
+  background: color-mix(in srgb, var(--navy-900) 65%, var(--surface));
+}
+.policeNum {
+  position: absolute; top: 0.75rem; right: 0.9rem;
+  font-family: var(--font-heading); font-size: var(--step-3); font-weight: 800; line-height: 1;
+  color: color-mix(in srgb, var(--trust) 35%, transparent);
+}
+.policeIconWrap {
+  display: grid; place-items: center;
+  width: 5rem; height: 5rem; border-radius: 50%;
+  background: color-mix(in srgb, var(--trust) 15%, transparent);
+  color: var(--trust);
+}
+.policeIconWrap svg { width: 2.4rem; height: 2.4rem; }
+
+.policeBody {
+  display: grid; gap: 0.4rem;
+  padding: var(--space-4) var(--space-5);
+}
+.policeBody strong { font-size: var(--step-0); font-weight: 700; color: var(--heading); line-height: 1.4; }
+.policeBody p { font-size: var(--step--1); color: var(--text-muted); line-height: 1.6; }
+
+/* ── Laws ─────────────────────────────────────────────────── */
+.laws { display: grid; gap: var(--space-3); }
+@media (min-width: 900px) { .laws { grid-template-columns: repeat(2, 1fr); } }
+.laws li {
+  display: flex; gap: 1rem; align-items: flex-start; padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg); font-size: var(--step-0); line-height: 1.65;
+}
+.lawNum {
+  display: grid; place-items: center; flex: none; width: 2.1rem; height: 2.1rem; border-radius: 0.55rem;
+  background: color-mix(in srgb, var(--trust) 15%, transparent);
+  color: var(--trust); font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem;
+}
+
+/* ── CTA ──────────────────────────────────────────────────── */
+.cta {
+  display: grid; gap: var(--space-5); align-items: center; margin-top: var(--space-7);
+  padding: clamp(1.75rem, 1rem + 3vw, 3.5rem); border-radius: 1.75rem;
+  background: var(--navy-900); color: #dbe3ef; position: relative; overflow: hidden;
+}
+.cta::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 90% 50%, color-mix(in srgb, var(--trust) 20%, transparent), transparent 60%);
+}
+@media (min-width: 900px) { .cta { grid-template-columns: 1fr auto; } }
+.cta h2 { color: #fff; font-size: var(--step-3); position: relative; }
+.cta p { margin-top: var(--space-2); color: rgb(255 255 255 / 0.6); position: relative; }

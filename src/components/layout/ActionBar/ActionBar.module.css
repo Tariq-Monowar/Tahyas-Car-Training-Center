@@ -1,0 +1,12 @@
+.bar {
+  position: fixed; inset-inline: 0; bottom: 0; z-index: 40;
+  padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+  background: var(--surface-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border);
+  transform: translateY(110%);
+  transition: transform 0.4s var(--ease);
+}
+.bar[data-show] { transform: none; }
+@media (min-width: 900px) { .bar { display: none; } }

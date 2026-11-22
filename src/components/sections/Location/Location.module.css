@@ -1,0 +1,69 @@
+.section {
+  position: relative; overflow: hidden;
+}
+.section::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 8% 60%, color-mix(in srgb, var(--trust) 8%, transparent), transparent 50%),
+    radial-gradient(ellipse at 92% 15%, rgb(255 197 49 / 0.05), transparent 45%);
+}
+
+.grid {
+  display: grid; gap: var(--space-5); position: relative;
+}
+@media (min-width: 900px) { .grid { grid-template-columns: 1.35fr 1fr; gap: var(--space-6); align-items: stretch; } }
+
+/* ── Map ──────────────────────────────────────────────────── */
+.map {
+  position: relative; border-radius: 1.5rem; overflow: hidden;
+  aspect-ratio: 4/3; min-height: 20rem;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.28), 0 0 0 1px var(--border);
+  background: var(--navy-800);
+}
+.map::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 3.5rem; z-index: 2;
+  background: linear-gradient(to top, rgb(8 12 20 / 0.22), transparent);
+  pointer-events: none;
+}
+.map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+:global([data-theme="dark"]) .map iframe { filter: brightness(0.82) contrast(1.06); }
+
+/* ── Info panel ───────────────────────────────────────────── */
+.info {
+  display: grid; align-content: start;
+  background: var(--navy-900);
+  border: 1px solid color-mix(in srgb, var(--trust) 18%, var(--border));
+  border-radius: 1.5rem; overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.front { aspect-ratio: 16/7; position: relative; }
+.front img { object-fit: cover; }
+
+.infoRows { display: grid; }
+.row {
+  display: flex; gap: var(--space-4); align-items: flex-start;
+  padding: var(--space-5);
+  border-bottom: 1px solid color-mix(in srgb, #fff 6%, transparent);
+}
+.row:last-of-type { border-bottom: none; }
+.rowIcon {
+  display: grid; place-items: center; flex: none; margin-top: 0.1rem;
+  width: 2.6rem; height: 2.6rem; border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--trust) 15%, transparent);
+  color: var(--trust);
+}
+.rowIcon svg { width: 1.2rem; height: 1.2rem; }
+.row h3 {
+  font-size: var(--step-0); font-weight: 700; color: #fff; margin-bottom: 0.3rem;
+}
+.row address, .row p {
+  font-style: normal; color: rgb(255 255 255 / 0.55);
+  font-size: var(--step--1); line-height: 1.65;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.buttons {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);
+  padding: var(--space-5);
+  border-top: 1px solid color-mix(in srgb, #fff 8%, transparent);
+}

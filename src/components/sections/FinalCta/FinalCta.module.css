@@ -1,0 +1,13 @@
+.section {
+  position: relative; overflow: hidden;
+  padding-top: var(--space-8);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(255 197 49 / 0.28), transparent 60%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950));
+  color: #c9d2e0; text-align: center;
+}
+.inner { display: grid; justify-items: center; gap: var(--space-4); padding-bottom: var(--space-6); }
+.inner h2 { color: #fff; font-size: var(--step-4); max-width: 22ch; }
+.slogan { font-family: var(--font-heading); color: var(--amber-400); font-weight: 600; font-size: var(--step-1); }
+.lead { max-width: 40ch; font-size: var(--step-1); }
+.road { height: 100px; }

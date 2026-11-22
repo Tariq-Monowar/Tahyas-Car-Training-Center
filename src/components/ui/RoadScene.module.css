@@ -1,0 +1,27 @@
+.scene { position: relative; height: 112px; overflow: hidden; }
+
+.road {
+  position: absolute; inset-inline: 0; bottom: 0; height: 46px;
+  background: linear-gradient(#2a3446, #1a2231);
+  border-top: 3px solid #f5b301;
+}
+.lanes {
+  position: absolute; top: 50%; left: 0; width: 200%; height: 4px; margin-top: -2px;
+  background: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.85) 0 34px, transparent 34px 68px);
+  animation: lanes 0.9s linear infinite;
+  will-change: transform;
+}
+@keyframes lanes { to { transform: translateX(-68px); } }
+
+.car {
+  position: absolute; bottom: 14px; left: 50%;
+  width: clamp(150px, 46%, 220px);
+  transform: translateX(-50%);
+  animation: drive-in 1.4s var(--ease) both, bob 0.5s ease-in-out 1.4s infinite alternate;
+}
+.car svg { width: 100%; height: auto; }
+@keyframes drive-in { from { transform: translateX(-180%); } to { transform: translateX(-50%); } }
+@keyframes bob { from { transform: translate(-50%, 0); } to { transform: translate(-50%, -1.5px); } }
+
+.wheel { animation: spin 0.45s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

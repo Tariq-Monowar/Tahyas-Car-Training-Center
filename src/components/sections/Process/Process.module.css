@@ -1,0 +1,38 @@
+/* Vertical road on mobile, horizontal road on desktop */
+.timeline { position: relative; display: grid; gap: var(--space-5); }
+.timeline::before {
+  content: ""; position: absolute; left: 1.75rem; top: 1rem; bottom: 1rem; width: 6px; margin-left: -3px;
+  border-radius: 6px; background: var(--road);
+  background-image: repeating-linear-gradient(transparent 0 10px, var(--amber-400) 10px 22px);
+  background-size: 2px 100%; background-repeat: repeat-y; background-position: center;
+  background-color: var(--road);
+}
+.step { position: relative; display: grid; grid-template-columns: 3.5rem 1fr; gap: var(--space-4); align-items: start; }
+.dot {
+  position: relative; z-index: 1; display: grid; place-items: center;
+  width: 3.5rem; height: 3.5rem; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent);
+  box-shadow: 0 0 0 6px var(--bg-alt), 0 10px 20px -8px rgb(245 179 1 / 0.8);
+}
+.dot svg { width: 1.5rem; height: 1.5rem; }
+.num {
+  position: absolute; top: -4px; right: -4px; display: grid; place-items: center;
+  width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: var(--navy-900); color: #fff; font-size: 0.8rem; font-weight: 700;
+  border: 2px solid var(--bg-alt);
+}
+.body { padding: var(--space-4) var(--space-5); }
+.body h3 { font-size: var(--step-1); }
+
+@media (min-width: 900px) {
+  .timeline { grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+  .timeline::before {
+    left: 6%; right: 6%; top: 1.75rem; bottom: auto; width: auto; height: 6px; margin: -3px 0 0;
+    background-image: repeating-linear-gradient(90deg, transparent 0 10px, var(--amber-400) 10px 22px);
+    background-size: 100% 2px; background-repeat: repeat-x;
+  }
+  .step { grid-template-columns: 1fr; grid-template-rows: auto 1fr; justify-items: center; text-align: center; }
+  .body { width: 100%; height: 100%; }
+}
+
+.cta { display: flex; justify-content: center; margin-top: var(--space-6); }

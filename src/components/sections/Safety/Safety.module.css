@@ -1,0 +1,26 @@
+.strip {
+  position: relative; overflow: hidden;
+  padding-block: var(--space-7);
+  background: var(--amber-400); color: var(--navy-900);
+  --heading: var(--navy-900);
+}
+/* hazard stripes top & bottom */
+.strip::before, .strip::after {
+  content: ""; position: absolute; inset-inline: 0; height: 10px;
+  background: repeating-linear-gradient(-45deg, var(--navy-900) 0 14px, transparent 14px 28px);
+}
+.strip::before { top: 0; }
+.strip::after { bottom: 0; }
+.title { text-align: center; font-size: var(--step-3); margin-bottom: var(--space-5); }
+.list { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+.list > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+@media (min-width: 768px) { .list { grid-template-columns: repeat(5, 1fr); } .list > li:last-child:nth-child(odd) { grid-column: auto; } }
+.item { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; font-weight: 600; line-height: 1.5; }
+/* Diamond road sign */
+.sign {
+  display: grid; place-items: center; width: 3.6rem; height: 3.6rem; margin: 0.5rem;
+  background: var(--navy-900); color: var(--amber-400);
+  border-radius: 0.6rem; transform: rotate(45deg);
+  box-shadow: 0 0 0 3px var(--amber-400), 0 0 0 5px var(--navy-900);
+}
+.sign > * { transform: rotate(-45deg); width: 1.6rem; height: 1.6rem; }
