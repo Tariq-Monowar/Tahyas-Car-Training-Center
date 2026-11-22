@@ -224,7 +224,8 @@ export default function ChatPanel({ lang, strings, open, onClose }: { lang: Lang
                 <p className={styles.bot}>
                   {m.content ? <RichText text={m.content} waHref={strings.whatsappHref} /> : <span className={styles.typing} aria-label="…"><i /><i /><i /></span>}
                 </p>
-                {isLastBot && m.content && !busy && (
+                {isLastBot && m.content && !busy &&
+                  /whatsapp|হোয়াটসঅ্যাপ|wa\.me|ভর্তি|enrol|যোগাযোগ|contact|মেসেজ করুন|01[3-9]\d{8}/i.test(m.content) && (
                   <a href={strings.whatsappHref} target="_blank" rel="noopener noreferrer" className={styles.inlineWa}>
                     <WhatsAppIcon size={18} /> {strings.askWhatsapp}
                   </a>
