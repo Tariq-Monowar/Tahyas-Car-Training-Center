@@ -14,8 +14,18 @@ export function fallbackReply(question: string, lang: Lang): string {
     ? `ভর্তি বা আরও জানতে WhatsApp করুন: ${site.whatsapp.display}`
     : `To enrol or learn more, WhatsApp us: ${site.whatsapp.display}`;
 
-  // Abusive language — firm pushback
-  if (has("মাদার", "মাদারচোদ", "বাল", "শালা", "শালি", "চোদ", "চুদ", "ফাক", "fuck", "bitch", "bastard", "haramzada", "হারামজাদা", "কুত্তা", "গাধা", "বেশ্যা", "রান্ডি", "খানকি", "ইডিয়ট"))
+  // Abusive language — firm pushback (Bengali + Roman script variants)
+  if (has(
+    // Bengali script
+    "মাদার", "মাদারচোদ", "বাল", "শালা", "শালি", "চোদ", "চুদ", "হারামজাদা",
+    "কুত্তা", "কুত্তার", "বেশ্যা", "রান্ডি", "খানকি", "ভোদা", "গান্ড",
+    // Roman script Bengali abuse
+    "madar", "madarchood", "madarchod", "kuttar", "kutar", "khankir", "khanki",
+    "banchod", "benchod", "chutia", "chutiya", "gaand", "gand", "boka choda",
+    "bokachoda", "harami", "haramzada", "sala ", "shala", "randi",
+    // English abuse
+    "fuck", "bitch", "bastard", "asshole", "motherfucker", "idiot", "stupid",
+  ))
     return lang === "bn"
       ? "এই ভাষায় কথা বলবেন না। সম্মান দিলে সম্মান পাবেন। 🛑"
       : "Please use respectful language. I'm here to help, not to be disrespected. 🛑";
