@@ -189,12 +189,6 @@ export default function ChatPanel({ lang, strings, open, onClose }: { lang: Lang
       </header>
 
       <div ref={listRef} className={styles.list} aria-live="polite" aria-busy={busy}>
-        {/* Welcome */}
-        <div className={styles.row}>
-          <span className={styles.miniAvatar} aria-hidden="true"><Bot /></span>
-          <p className={styles.bot}>{strings.greeting}</p>
-        </div>
-
         {!started && (
           <div className={styles.topics}>
             <p className={styles.topicsTitle}>{strings.pickTopic}</p>
