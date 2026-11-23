@@ -56,8 +56,16 @@ export function fallbackReply(question: string, lang: Lang): string {
       ? `ভর্তি ও ক্লাসের সময় ঠিক করতে WhatsApp করুন: ${site.whatsapp.display}`
       : `To enrol and book your class, WhatsApp us: ${site.whatsapp.display}`;
 
-  // Default — unknown topic, suggest WhatsApp
-  return lang === "bn"
-    ? `এই বিষয়ে আমি সঠিক তথ্য দিতে পারছি না। ${wa}`
-    : `I'm not sure about that. ${wa}`;
+  // Fun/off-topic — witty redirect
+  const funnyBn = [
+    "হাহা, আমি গাড়ির বিশেষজ্ঞ, এটা একটু আমার লেনের বাইরে! 😄 তবে গাড়ি চালানো শিখতে চাইলে আমি রেডি!",
+    "দারুণ প্রশ্ন, কিন্তু আমার স্টিয়ারিং শুধু ড্রাইভিং-এর দিকে ঘোরে 🚗 গাড়ি সম্পর্কে কিছু জানতে চাও?",
+    "আমি ড্রাইভিং-এর ব্যাপারে এক্সপার্ট, বাকি বিষয়ে সিগনাল অফ! 😅 ভর্তি বা কোর্স নিয়ে জিজ্ঞেস করো!",
+  ];
+  const funnyEn = [
+    "Ha! That's outside my lane 🚗 I'm only an expert on driving — want to know about our courses?",
+    "My steering only turns toward driving topics 😄 Anything about cars or enrolment I can help with!",
+  ];
+  if (lang === "bn") return funnyBn[Math.floor(Date.now() / 1000) % funnyBn.length];
+  return funnyEn[Math.floor(Date.now() / 1000) % funnyEn.length];
 }

@@ -197,7 +197,7 @@ export default function ChatPanel({ lang, strings, open, onClose }: { lang: Lang
                 const I = topicIcons[tp.icon];
                 return (
                   <button key={tp.label} type="button" className={styles.topic} onClick={() => ask(tp.ask)}>
-                    <I aria-hidden="true" />
+                    <span className={styles.topicIcon}><I aria-hidden="true" /></span>
                     <span>{tp.label}</span>
                   </button>
                 );
