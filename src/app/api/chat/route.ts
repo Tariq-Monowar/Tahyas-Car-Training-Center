@@ -10,12 +10,11 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-// llama-3.3-70b-versatile was retired by Groq; gpt-oss-120b handles Bengali well. Override with GROQ_MODEL.
-const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
-const MAX_MESSAGE_CHARS = 500;
-const MAX_HISTORY = 8;
-const MAX_TOKENS = 700; // includes the model's short internal reasoning
-const RATE_LIMIT = { max: 20, windowMs: 10 * 60 * 1000 }; // 20 messages / 10 min / IP
+const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MAX_MESSAGE_CHARS = 400;
+const MAX_HISTORY = 5;
+const MAX_TOKENS = 300;
+const RATE_LIMIT = { max: 20, windowMs: 10 * 60 * 1000 };
 
 /* In-memory rate limit (per server instance — fine for a small site). */
 const hits = new Map<string, { count: number; reset: number }>();
@@ -107,8 +106,7 @@ export async function POST(req: Request) {
         model: MODEL,
         messages: [{ role: "system", content: buildSystemPrompt() }, ...messages],
         max_tokens: MAX_TOKENS,
-        temperature: 0.3,
-        ...(MODEL.startsWith("openai/gpt-oss") ? { reasoning_effort: "low", include_reasoning: false } : {}),
+        temperature: 0.5,
         stream: true,
       }),
       signal: AbortSignal.timeout(20_000),
