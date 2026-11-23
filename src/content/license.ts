@@ -8,7 +8,7 @@ import type { Text } from "@/lib/i18n";
 export const licensePage = {
   meta: {
     title: {
-      bn: "ড্রাইভিং লাইসেন্স করতে কী কী লাগে — কাগজপত্র ও পরীক্ষা | তাইয়াস, লক্ষ্মীপুর",
+      bn: "ড্রাইভিং লাইসেন্স করতে কী কী লাগে — কাগজপত্র ও পরীক্ষা | তাহয়াস, লক্ষ্মীপুর",
       en: "How to get a driving licence in Bangladesh — documents & tests | Tahyas, Lakshmipur",
     },
     description: {

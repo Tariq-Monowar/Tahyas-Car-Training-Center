@@ -10,7 +10,7 @@ type Sign = { kind: SignKind; name: Text; meaning: Text };
 export const roadRules = {
   meta: {
     title: {
-      bn: "ট্রাফিক সাইন, সংকেত ও সড়ক আইন — সহজ গাইড | তাইয়াস, লক্ষ্মীপুর",
+      bn: "ট্রাফিক সাইন, সংকেত ও সড়ক আইন — সহজ গাইড | তাহয়াস, লক্ষ্মীপুর",
       en: "Traffic signs, signals & road rules in Bangladesh — simple guide | Tahyas, Lakshmipur",
     },
     description: {

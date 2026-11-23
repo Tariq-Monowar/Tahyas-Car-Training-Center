@@ -17,7 +17,7 @@ export function fallbackReply(question: string, lang: Lang): string {
   // Greetings — no WhatsApp needed
   if (has("সালাম", "আদাব", "হ্যালো", "হেলো", "নমস্কার", "hi ", "hello", "assalam", "salam", "আসসালামু", "ওয়ালাইকুম"))
     return lang === "bn"
-      ? "ওয়ালাইকুম আসসালাম! আমি তাইয়াস কার ট্রেনিং সেন্টারের সহকারী। কোর্স, ভর্তি বা গাড়ি চালানো সম্পর্কে যেকোনো প্রশ্ন করুন।"
+      ? "ওয়ালাইকুম আসসালাম! আমি তাহয়াস কার ট্রেনিং সেন্টারের সহকারী। কোর্স, ভর্তি বা গাড়ি চালানো সম্পর্কে যেকোনো প্রশ্ন করুন।"
       : "Hello! I'm the assistant for Tahyas Car Training Center. Ask me anything about our courses, enrolment or driving.";
 
   // Licence — answer + link, no WhatsApp

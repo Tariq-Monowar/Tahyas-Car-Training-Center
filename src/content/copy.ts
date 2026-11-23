@@ -275,7 +275,7 @@ export const location = {
   howToCome: { bn: "কিভাবে আসবেন", en: "How to get here" },
   openMaps: { bn: "Google Maps এ খুলুন", en: "Open in Google Maps" },
   route: { bn: "রুট দেখুন", en: "Get directions" },
-  mapTitle: { bn: "তাইয়াস কার ট্রেনিং সেন্টারের ম্যাপ", en: "Map of Tahyas Car Training Center" },
+  mapTitle: { bn: "তাহয়াস কার ট্রেনিং সেন্টারের ম্যাপ", en: "Map of Tahyas Car Training Center" },
 };
 
 export const finalCta = {
@@ -284,11 +284,11 @@ export const finalCta = {
 };
 
 export const chat = {
-  title: { bn: "তাইয়াস সহকারী", en: "Tahyas Assistant" },
+  title: { bn: "তাহয়াস সহকারী", en: "Tahyas Assistant" },
   subtitle: { bn: "অনলাইন • সাধারণত তাৎক্ষণিক উত্তর", en: "Online • usually replies instantly" },
   open: { bn: "প্রশ্ন করুন", en: "Ask a question" },
   greeting: {
-    bn: "আসসালামু আলাইকুম! 👋 আমি তাইয়াস সহকারী। নিচের যেকোনো বিষয়ে চাপ দিন, অথবা নিজের মতো করে লিখুন বা 🎤 চেপে মুখে বলুন।",
+    bn: "আসসালামু আলাইকুম! 👋 আমি তাহয়াস সহকারী। নিচের যেকোনো বিষয়ে চাপ দিন, অথবা নিজের মতো করে লিখুন বা 🎤 চেপে মুখে বলুন।",
     en: "Hello! 👋 I'm the Tahyas assistant. Tap a topic below, type your own question, or press 🎤 and speak.",
   },
   pickTopic: { bn: "আপনি কী জানতে চান?", en: "What would you like to know?" },

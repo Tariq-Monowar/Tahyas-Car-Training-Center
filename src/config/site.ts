@@ -15,8 +15,8 @@ export type IconName =
 
 export const site = {
   /* ───────────── Business ───────────── */
-  name: { bn: "তাইয়াস কার ট্রেনিং সেন্টার", en: "Tahyas Car Training Center" } as Text,
-  shortName: { bn: "তাইয়াস", en: "Tahyas" } as Text,
+  name: { bn: "তাহয়াস কার ট্রেনিং সেন্টার", en: "Tahyas Car Training Center" } as Text,
+  shortName: { bn: "তাহয়াস", en: "Tahyas" } as Text,
   tagline: {
     bn: "দক্ষতা অর্জন করুন, আত্মবিশ্বাসের সাথে গাড়ি চালান",
     en: "Build real skill, drive with confidence",
@@ -31,7 +31,7 @@ export const site = {
     display: "01320381356",
     number: "8801320381356", // with country code, no "+"
     defaultMessage: {
-      bn: "আসসালামু আলাইকুম, আমি তাইয়াস কার ট্রেনিং সেন্টারে ড্রাইভিং শিখতে চাই। বিস্তারিত জানাবেন?",
+      bn: "আসসালামু আলাইকুম, আমি তাহয়াস কার ট্রেনিং সেন্টারে ড্রাইভিং শিখতে চাই। বিস্তারিত জানাবেন?",
       en: "Hello, I want to learn driving at Tahyas Car Training Center. Could you share the details?",
     } as Text,
   },

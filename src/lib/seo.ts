@@ -3,7 +3,7 @@ import { finalPrice, site } from "@/config/site";
 import { homePath, type Lang } from "./i18n";
 
 const titles = {
-  bn: "তাইয়াস কার ট্রেনিং সেন্টার | লক্ষ্মীপুরে ড্রাইভিং স্কুল",
+  bn: "তাহয়াস কার ট্রেনিং সেন্টার | লক্ষ্মীপুরে ড্রাইভিং স্কুল",
   en: "Tahyas Car Training Center | Driving School in Lakshmipur",
 };
 const descriptions = {
