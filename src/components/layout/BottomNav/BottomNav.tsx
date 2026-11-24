@@ -1,109 +1,110 @@
 "use client";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "./BottomNav.module.css";
 
-function IconCourses() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      <path d="M9 7h7M9 11h5" />
-    </svg>
-  );
-}
+const svg = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
-function IconLocation() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-      <circle cx="12" cy="9" r="2.5" />
-    </svg>
-  );
-}
+const IconHome = () => (
+  <svg {...svg}><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /></svg>
+);
+const IconCourses = () => (
+  <svg {...svg}><path d="M22 10 12 5 2 10l10 5 10-5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
+);
+const IconApply = () => (
+  <svg {...svg}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M12 12v6M9 15h6" /></svg>
+);
+const IconLocation = () => (
+  <svg {...svg}><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>
+);
+const IconChat = () => (
+  <svg {...svg}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 10h.01M12 10h.01M16 10h.01" strokeWidth={2.6} /></svg>
+);
 
-function IconApply() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <path d="M14 2v6h6M12 12v6M9 15h6" />
-    </svg>
-  );
-}
+const HOME = 0, COURSES = 1, APPLY = 2, LOCATION = 3, CHAT = 4;
 
-function IconChat() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      <circle cx="8" cy="10" r="1" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="10" r="1" fill="currentColor" stroke="none" />
-      <circle cx="16" cy="10" r="1" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
+const items = [
+  { label: "হোম", href: "/", Icon: IconHome },
+  { label: "কোর্স", href: "/#courses", Icon: IconCourses },
+  { label: "আবেদন", href: "/enroll", Icon: IconApply },
+  { label: "ঠিকানা", href: "/#location", Icon: IconLocation },
+  { label: "চ্যাট", Icon: IconChat },
+];
 
-function IconPhone() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.07 3.4 2 2 0 0 1 3 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16l.92.92z" />
-    </svg>
-  );
+function sectionIndex(): number {
+  const probe = window.innerHeight * 0.45;
+  for (const [id, idx] of [["courses", COURSES], ["location", LOCATION]] as const) {
+    const r = document.getElementById(id)?.getBoundingClientRect();
+    if (r && r.top <= probe && r.bottom > probe) return idx;
+  }
+  return HOME;
 }
 
 export function BottomNav() {
   const pathname = usePathname();
-  const isEnroll = pathname.includes("/enroll");
+  const isHome = pathname === "/" || pathname === "/en";
+  const [active, setActive] = useState(-1);
+  const [chatOpen, setChatOpen] = useState(false);
 
-  function openChat() {
-    window.dispatchEvent(new CustomEvent("open-chat"));
-  }
+  useEffect(() => {
+    if (pathname.includes("/enroll")) { setActive(APPLY); return; }
+    if (!isHome) { setActive(-1); return; }
+    let raf = 0;
+    const update = () => { raf = 0; setActive(sectionIndex()); };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+  }, [pathname, isHome]);
+
+  useEffect(() => {
+    const onClose = () => setChatOpen(false);
+    window.addEventListener("chat-closed", onClose);
+    return () => window.removeEventListener("chat-closed", onClose);
+  }, []);
+
+  const current = chatOpen ? CHAT : active;
 
   return (
-    <nav className={styles.nav} aria-label="Quick navigation">
-      {/* কোর্স */}
-      <a href="/#courses" className={styles.item} aria-label="কোর্স">
-        <span className={styles.icon}><IconCourses /></span>
-        <span className={styles.label}>কোর্স</span>
-      </a>
-
-      {/* ঠিকানা */}
-      <a href="/#location" className={styles.item} aria-label="ঠিকানা">
-        <span className={styles.icon}><IconLocation /></span>
-        <span className={styles.label}>ঠিকানা</span>
-      </a>
-
-      {/* আবেদন — CTA */}
-      <a
-        href="/enroll"
-        className={`${styles.item} ${styles.cta} ${isEnroll ? styles.activeItem : ""}`}
-        aria-label="আবেদন"
-        aria-current={isEnroll ? "page" : undefined}
-      >
-        <span className={styles.icon}><IconApply /></span>
-        <span className={styles.label}>আবেদন</span>
-      </a>
-
-      {/* চ্যাট — opens AI chat full screen */}
-      <button
-        type="button"
-        className={styles.item}
-        aria-label="চ্যাট"
-        onClick={openChat}
-      >
-        <span className={styles.icon}><IconChat /></span>
-        <span className={styles.label}>চ্যাট</span>
-      </button>
-
-      {/* যোগাযোগ */}
-      <a
-        href="https://wa.me/8801320381356"
-        className={styles.item}
-        aria-label="যোগাযোগ"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span className={styles.icon}><IconPhone /></span>
-        <span className={styles.label}>যোগাযোগ</span>
-      </a>
+    <nav
+      className={styles.nav}
+      aria-label="Quick navigation"
+      style={{ "--i": Math.max(current, 0) } as React.CSSProperties}
+      data-has-active={current >= 0 || undefined}
+    >
+      <span className={styles.bubble} aria-hidden="true" />
+      {items.map(({ label, href, Icon }, idx) => {
+        const cls = `${styles.item} ${idx === current ? styles.activeItem : ""}`;
+        const inner = (
+          <>
+            <span className={styles.icon}><Icon /></span>
+            <span className={styles.label}>{label}</span>
+          </>
+        );
+        if (!href) {
+          return (
+            <button
+              key={label}
+              type="button"
+              className={cls}
+              onClick={() => { setChatOpen(true); window.dispatchEvent(new CustomEvent("open-chat")); }}
+            >
+              {inner}
+            </button>
+          );
+        }
+        return (
+          <a
+            key={label}
+            href={href}
+            className={cls}
+            aria-current={idx === current ? "page" : undefined}
+            onClick={() => setActive(idx)}
+          >
+            {inner}
+          </a>
+        );
+      })}
     </nav>
   );
 }

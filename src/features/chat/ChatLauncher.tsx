@@ -71,7 +71,7 @@ export function ChatLauncher({ lang, strings }: { lang: Lang; strings: ChatStrin
           {!open && <span className={styles.ping} aria-hidden="true" />}
         </button>
       )}
-      {everOpened && <ChatPanel lang={lang} strings={strings} open={open} onClose={() => setOpen(false)} />}
+      {everOpened && <ChatPanel lang={lang} strings={strings} open={open} onClose={() => { setOpen(false); window.dispatchEvent(new CustomEvent("chat-closed")); }} />}
     </>
   );
 }
