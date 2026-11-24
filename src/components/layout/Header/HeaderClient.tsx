@@ -69,12 +69,14 @@ type MenuProps = {
   className: string;
 };
 
-/** Hamburger + slide-in drawer (mobile/tablet). Esc closes, focus is managed, body scroll is locked. */
+/** Hamburger + bottom-sheet drawer (mobile) / slide-in (tablet+). Swipe-down closes on mobile. */
 export function MobileMenu({ items, menuLabel, closeLabel, className }: MenuProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const dragStartY = useRef<number | null>(null);
+  const dragDelta = useRef(0);
 
   useEffect(() => setMounted(true), []);
 
@@ -99,6 +101,30 @@ export function MobileMenu({ items, menuLabel, closeLabel, className }: MenuProp
       triggerRef.current?.focus();
     };
   }, [open]);
+
+  /* Swipe-down to dismiss (mobile bottom sheet) */
+  function onTouchStart(e: React.TouchEvent) {
+    dragStartY.current = e.touches[0].clientY;
+    dragDelta.current = 0;
+  }
+  function onTouchMove(e: React.TouchEvent) {
+    if (dragStartY.current === null) return;
+    const dy = e.touches[0].clientY - dragStartY.current;
+    if (dy > 0 && panelRef.current) {
+      dragDelta.current = dy;
+      panelRef.current.style.transform = `translateY(${dy}px)`;
+      panelRef.current.style.transition = "none";
+    }
+  }
+  function onTouchEnd() {
+    if (panelRef.current) {
+      panelRef.current.style.transform = "";
+      panelRef.current.style.transition = "";
+    }
+    if (dragDelta.current > 80) setOpen(false);
+    dragStartY.current = null;
+    dragDelta.current = 0;
+  }
 
   return (
     <>
@@ -126,6 +152,9 @@ export function MobileMenu({ items, menuLabel, closeLabel, className }: MenuProp
               aria-modal="true"
               aria-label={menuLabel}
               inert={!open}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
               <div className={styles.drawerHandle} aria-hidden="true" />
               <button type="button" className={styles.close} onClick={() => setOpen(false)} aria-label={closeLabel}>

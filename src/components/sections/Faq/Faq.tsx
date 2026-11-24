@@ -29,6 +29,26 @@ export function Faq({ lang }: { lang: Lang }) {
             <a href={waLink(lang)} target="_blank" rel="noopener noreferrer" className={styles.link}>{t(faq.ask, lang)}</a>
           </p>
         </div>
+
+        {/* License application CTA */}
+        <div className={styles.licenseCta} data-reveal>
+          <div className={styles.licenseCard}>
+            <div className={styles.licenseIcon}>📋</div>
+            <div className={styles.licenseBody}>
+              <p className={styles.licenseTitle}>
+                {lang === "bn" ? "ড্রাইভিং লাইসেন্সের আবেদন করুন" : "Apply for Driving License"}
+              </p>
+              <p className={styles.licenseText}>
+                {lang === "bn"
+                  ? "কোর্স সম্পন্নের পর আমরা BRTA-র মাধ্যমে লাইসেন্স আবেদনে সহায়তা করি।"
+                  : "After course completion, we assist with BRTA license application."}
+              </p>
+            </div>
+            <a href="/enroll" className={styles.licenseBtn}>
+              {lang === "bn" ? "আবেদন করুন →" : "Apply Now →"}
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

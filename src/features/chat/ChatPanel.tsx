@@ -73,14 +73,6 @@ export default function ChatPanel({ lang, strings, open, onClose }: { lang: Lang
     if (open && matchMedia("(min-width: 640px)").matches) inputRef.current?.focus({ preventScroll: true });
   }, [open]);
 
-  // Lock page scroll behind the full-screen sheet on phones
-  useEffect(() => {
-    if (!open || matchMedia("(min-width: 640px)").matches) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
-  }, [open]);
-
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);

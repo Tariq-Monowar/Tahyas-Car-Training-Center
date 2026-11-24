@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { MessageCircle, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Lang } from "@/lib/i18n";
 import styles from "./Chat.module.css";
 
@@ -20,13 +20,28 @@ export type ChatStrings = {
 const loadPanel = () => import("./ChatPanel");
 const ChatPanel = dynamic(loadPanel, { ssr: false });
 
-/** Floating "প্রশ্ন করুন" button (label visible on wider screens) that opens the chat. */
+/** Floating launcher + listens for 'open-chat' event from BottomNav. */
 export function ChatLauncher({ lang, strings }: { lang: Lang; strings: ChatStrings }) {
   const [open, setOpen] = useState(false);
   const [everOpened, setEverOpened] = useState(false);
 
+  /* BottomNav dispatches this to open chat without the floating button */
+  useEffect(() => {
+    const handler = () => { setOpen(true); setEverOpened(true); loadPanel(); };
+    window.addEventListener("open-chat", handler);
+    return () => window.removeEventListener("open-chat", handler);
+  }, []);
+
+  /* Lock body scroll + mark body when chat is open (hides bottom nav via CSS) */
+  useEffect(() => {
+    document.body.dataset.chatOpen = open ? "1" : "";
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.dataset.chatOpen = ""; document.body.style.overflow = ""; };
+  }, [open]);
+
   return (
     <>
+      {/* Desktop-only floating button — hidden on mobile via CSS */}
       <button
         type="button"
         className={styles.launcher}
