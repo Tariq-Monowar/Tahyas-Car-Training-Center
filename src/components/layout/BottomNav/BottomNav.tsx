@@ -31,48 +31,25 @@ const items = [
   { label: "চ্যাট", Icon: IconChat },
 ];
 
-function sectionIndex(): number {
-  const probe = window.innerHeight * 0.45;
-  for (const [id, idx] of [["courses", COURSES], ["location", LOCATION]] as const) {
-    const r = document.getElementById(id)?.getBoundingClientRect();
-    if (r && r.top <= probe && r.bottom > probe) return idx;
-  }
-  return HOME;
-}
+const HASH_INDEX: Record<string, number> = { "#courses": COURSES, "#location": LOCATION };
 
 export function BottomNav() {
   const pathname = usePathname();
   const isHome = pathname === "/" || pathname === "/en";
   const [active, setActive] = useState(-1);
   const [chatOpen, setChatOpen] = useState(false);
-  // While a tapped anchor is smooth-scrolling, ignore the sections it passes through
-  const lockUntil = useRef(0);
   // Transitions stay off until the bubble has been placed once, so it never flies in from the left
   const [ready, setReady] = useState(false);
   const lastShown = useRef(0);
 
+  // Set once per page from the URL; after that only a tap moves the bubble (scrolling never does)
   useLayoutEffect(() => {
     if (pathname.includes("/enroll")) setActive(APPLY);
-    else if (isHome) setActive(sectionIndex());
+    else if (isHome) setActive(HASH_INDEX[location.hash] ?? HOME);
     else setActive(-1);
     let r2 = 0;
     const r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(() => setReady(true)); });
     return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
-  }, [pathname, isHome]);
-
-  useEffect(() => {
-    if (pathname.includes("/enroll")) { setActive(APPLY); return; }
-    if (!isHome) { setActive(-1); return; }
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      if (Date.now() < lockUntil.current) return;
-      setActive(sectionIndex());
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, [pathname, isHome]);
 
   useEffect(() => {
@@ -120,7 +97,7 @@ export function BottomNav() {
             href={href}
             className={cls}
             aria-current={idx === current ? "page" : undefined}
-            onClick={() => { lockUntil.current = Date.now() + 1200; setActive(idx); }}
+            onClick={() => setActive(idx)}
           >
             {inner}
           </a>
