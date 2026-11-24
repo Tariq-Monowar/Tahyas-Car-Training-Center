@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./BottomNav.module.css";
 
 const svg = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -45,12 +45,18 @@ export function BottomNav() {
   const isHome = pathname === "/" || pathname === "/en";
   const [active, setActive] = useState(-1);
   const [chatOpen, setChatOpen] = useState(false);
+  // While a tapped anchor is smooth-scrolling, ignore the sections it passes through
+  const lockUntil = useRef(0);
 
   useEffect(() => {
     if (pathname.includes("/enroll")) { setActive(APPLY); return; }
     if (!isHome) { setActive(-1); return; }
     let raf = 0;
-    const update = () => { raf = 0; setActive(sectionIndex()); };
+    const update = () => {
+      raf = 0;
+      if (Date.now() < lockUntil.current) return;
+      setActive(sectionIndex());
+    };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -72,7 +78,7 @@ export function BottomNav() {
       style={{ "--i": Math.max(current, 0) } as React.CSSProperties}
       data-has-active={current >= 0 || undefined}
     >
-      <span className={styles.bubble} aria-hidden="true" />
+      <span className={styles.track} aria-hidden="true"><span className={styles.bubble} /></span>
       {items.map(({ label, href, Icon }, idx) => {
         const cls = `${styles.item} ${idx === current ? styles.activeItem : ""}`;
         const inner = (
@@ -99,7 +105,7 @@ export function BottomNav() {
             href={href}
             className={cls}
             aria-current={idx === current ? "page" : undefined}
-            onClick={() => setActive(idx)}
+            onClick={() => { lockUntil.current = Date.now() + 1200; setActive(idx); }}
           >
             {inner}
           </a>

@@ -10,6 +10,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  // The dev-only "N" badge sits on top of the mobile bottom nav
+  devIndicators: false,
   // Inline the (small) CSS into the HTML → no render-blocking stylesheet request on slow 3G/4G.
   experimental: { inlineCss: true },
   images: {
