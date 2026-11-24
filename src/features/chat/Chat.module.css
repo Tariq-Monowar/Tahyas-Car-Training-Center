@@ -1,7 +1,4 @@
 /* ── Launcher ──────────────────────────────────────────────────────────── */
-/* Mobile: launcher hidden — triggered via BottomNav instead */
-@media (max-width: 1023px) { .launcher { display: none !important; } }
-
 .launcher {
   position: fixed; z-index: 45; right: 1rem;
   bottom: calc(env(safe-area-inset-bottom) + 1.25rem);

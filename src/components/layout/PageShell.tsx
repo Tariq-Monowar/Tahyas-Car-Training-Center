@@ -11,7 +11,7 @@ export function PageShell({ lang, altHref, children }: { lang: Lang; altHref?: s
     <>
       <a href="#main" className="skip-link">{t(ui.skip, lang)}</a>
       <Header lang={lang} altHref={altHref} />
-      <main id="main" style={{ paddingBottom: "calc(64px + env(safe-area-inset-bottom))" }}>{children}</main>
+      <main id="main" style={{ paddingBottom: "calc(56px + env(safe-area-inset-bottom))" }}>{children}</main>
       <Footer lang={lang} />
       <Chat lang={lang} />
       <BottomNav />

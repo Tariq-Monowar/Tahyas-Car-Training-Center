@@ -24,10 +24,11 @@ const ChatPanel = dynamic(loadPanel, { ssr: false });
 export function ChatLauncher({ lang, strings }: { lang: Lang; strings: ChatStrings }) {
   const [open, setOpen] = useState(false);
   const [everOpened, setEverOpened] = useState(false);
-  const [isMobile, setIsMobile] = useState(true); // start hidden, reveal on desktop
+  // Default true = hidden; becomes false only on desktop after mount
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
+    const check = () => setShowButton(window.innerWidth >= 1024);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -52,8 +53,8 @@ export function ChatLauncher({ lang, strings }: { lang: Lang; strings: ChatStrin
 
   return (
     <>
-      {/* Only render the floating button on desktop */}
-      {!isMobile && (
+      {/* Only render the floating button on desktop (>= 1024px) */}
+      {showButton && (
         <button
           type="button"
           className={styles.launcher}
