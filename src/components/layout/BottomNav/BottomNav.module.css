@@ -55,7 +55,10 @@
 .item {
   position: relative;
   z-index: 1;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
   border: 0;
   background: none;
   font: inherit;
@@ -94,6 +97,10 @@
 /* Icon rises into the bubble (bubble centre = 3px from bar top) */
 .activeItem .icon { transform: translateY(-20px); color: var(--on-accent); }
 .activeItem .label { color: var(--accent-ink); font-weight: 700; }
+
+.nav:not([data-ready]) .track,
+.nav:not([data-ready]) .bubble,
+.nav:not([data-ready]) .icon { transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .track, .bubble, .icon { transition: none; }

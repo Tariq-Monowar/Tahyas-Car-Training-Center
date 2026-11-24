@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./BottomNav.module.css";
 
 const svg = { viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -47,6 +47,18 @@ export function BottomNav() {
   const [chatOpen, setChatOpen] = useState(false);
   // While a tapped anchor is smooth-scrolling, ignore the sections it passes through
   const lockUntil = useRef(0);
+  // Transitions stay off until the bubble has been placed once, so it never flies in from the left
+  const [ready, setReady] = useState(false);
+  const lastShown = useRef(0);
+
+  useLayoutEffect(() => {
+    if (pathname.includes("/enroll")) setActive(APPLY);
+    else if (isHome) setActive(sectionIndex());
+    else setActive(-1);
+    let r2 = 0;
+    const r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(() => setReady(true)); });
+    return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
+  }, [pathname, isHome]);
 
   useEffect(() => {
     if (pathname.includes("/enroll")) { setActive(APPLY); return; }
@@ -70,13 +82,16 @@ export function BottomNav() {
   }, []);
 
   const current = chatOpen ? CHAT : active;
+  // When nothing is active, keep the bubble where it was so it shrinks in place instead of sliding left
+  if (current >= 0) lastShown.current = current;
 
   return (
     <nav
       className={styles.nav}
       aria-label="Quick navigation"
-      style={{ "--i": Math.max(current, 0) } as React.CSSProperties}
+      style={{ "--i": lastShown.current } as React.CSSProperties}
       data-has-active={current >= 0 || undefined}
+      data-ready={ready || undefined}
     >
       <span className={styles.track} aria-hidden="true"><span className={styles.bubble} /></span>
       {items.map(({ label, href, Icon }, idx) => {
