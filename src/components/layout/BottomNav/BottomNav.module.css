@@ -7,7 +7,7 @@
     --count: 5;
     --pad: 6px;
     --ease: cubic-bezier(0.45, 0, 0.2, 1);
-    --dur: 0.45s;
+    --dur: 0.42s;
     display: flex;
     position: fixed;
     z-index: 55;

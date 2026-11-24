@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./BottomNav.module.css";
 
@@ -31,11 +31,19 @@ const items = [
   { label: "চ্যাট", Icon: IconChat },
 ];
 
+// Matches the bubble slide duration in BottomNav.module.css (--dur)
+const SLIDE_MS = 420;
+
+// Tab chosen on the previous page; the next page's nav starts there instead of guessing from the URL
+let pendingIndex: number | null = null;
+
 const HASH_INDEX: Record<string, number> = { "#courses": COURSES, "#location": LOCATION };
 
 export function BottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHome = pathname === "/" || pathname === "/en";
+  const navTimer = useRef(0);
   const [active, setActive] = useState(-1);
   const [chatOpen, setChatOpen] = useState(false);
   // Transitions stay off until the bubble has been placed once, so it never flies in from the left
@@ -44,13 +52,39 @@ export function BottomNav() {
 
   // Set once per page from the URL; after that only a tap moves the bubble (scrolling never does)
   useLayoutEffect(() => {
-    if (pathname.includes("/enroll")) setActive(APPLY);
+    if (pendingIndex !== null) { setActive(pendingIndex); pendingIndex = null; }
+    else if (pathname.includes("/enroll")) setActive(APPLY);
     else if (isHome) setActive(HASH_INDEX[location.hash] ?? HOME);
     else setActive(-1);
     let r2 = 0;
     const r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(() => setReady(true)); });
     return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
   }, [pathname, isHome]);
+
+  // Pages the nav can jump to are fetched ahead so the switch after the slide is instant
+  useEffect(() => {
+    router.prefetch("/");
+    router.prefetch("/enroll");
+    return () => clearTimeout(navTimer.current);
+  }, [router]);
+
+  /** Slide first, then move: same-page targets smooth-scroll, other pages swap client-side once the slide is done. */
+  function go(e: React.MouseEvent<HTMLAnchorElement>, idx: number, href: string) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    setActive(idx);
+    const [path, hash] = href.split("#");
+    const samePage = path === pathname || (path === "/" && isHome);
+    if (samePage) {
+      const target = hash ? document.getElementById(hash) : null;
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
+      history.replaceState(history.state, "", hash ? `#${hash}` : path);
+      return;
+    }
+    clearTimeout(navTimer.current);
+    navTimer.current = window.setTimeout(() => { pendingIndex = idx; router.push(href); }, SLIDE_MS);
+  }
 
   useEffect(() => {
     const onClose = () => setChatOpen(false);
@@ -85,7 +119,11 @@ export function BottomNav() {
               key={label}
               type="button"
               className={cls}
-              onClick={() => { setChatOpen(true); window.dispatchEvent(new CustomEvent("open-chat")); }}
+              onClick={() => {
+                setChatOpen(true);
+                clearTimeout(navTimer.current);
+                navTimer.current = window.setTimeout(() => window.dispatchEvent(new CustomEvent("open-chat")), SLIDE_MS);
+              }}
             >
               {inner}
             </button>
@@ -97,7 +135,7 @@ export function BottomNav() {
             href={href}
             className={cls}
             aria-current={idx === current ? "page" : undefined}
-            onClick={() => setActive(idx)}
+            onClick={(e) => go(e, idx, href)}
           >
             {inner}
           </a>
