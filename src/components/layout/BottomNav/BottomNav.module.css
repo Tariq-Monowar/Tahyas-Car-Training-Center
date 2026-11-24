@@ -1,0 +1,101 @@
+/* ── Bottom nav — mobile only ───────────────────────────────────────── */
+.nav {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    height: calc(60px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    box-shadow: 0 -4px 24px rgb(0 0 0 / 0.12);
+  }
+
+  :global([data-theme="dark"]) .nav {
+    background: rgba(13, 20, 33, 0.92);
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--text);
+  transition: color 0.2s, transform 0.15s;
+  min-height: 60px;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+.item:active { transform: scale(0.9); }
+
+.icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+
+.item:hover .label,
+.active .label { opacity: 1; color: var(--accent); }
+
+/* CTA button — enroll */
+.cta {
+  flex: 1.4;
+}
+
+.cta .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 36px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 1px;
+}
+
+.cta:active .icon {
+  transform: scale(0.9);
+  box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
+}
+
+.cta .label { color: #d97706; opacity: 1; font-weight: 700; }
+
+/* Active indicator dot */
+.active::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}

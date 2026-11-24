@@ -42,6 +42,7 @@ export function buildMetadata(lang: Lang): Metadata {
     },
     robots: { index: true, follow: true, "max-image-preview": "large" } as Metadata["robots"],
     formatDetection: { telephone: false },
+    manifest: "/manifest.webmanifest",
     other: { "geo.region": "BD-51", "geo.placename": "Lakshmipur", "geo.position": `${site.geo.lat};${site.geo.lng}` },
   };
 }

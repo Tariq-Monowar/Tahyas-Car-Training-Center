@@ -246,6 +246,18 @@ export const site = {
     },
   ] as Faq[],
 
+  /* ───────────── Certificate ─────────────
+     Printed at the bottom of every course-completion certificate.
+     A name is drawn as a handwritten signature above the line and printed
+     under it. Leave a name "" to show only the signature line + title.
+     Signatures sit on the left (and right, if a second one is added); the seal stays in the middle. ✏️ */
+  certificate: {
+    prefix: "TCTC",
+    signatories: [
+      { name: "Tahsan Tahsin", title: "Director & Trainer" },
+    ],
+  },
+
   /** Analytics placeholder. Paste a lightweight script id here later (e.g. Cloudflare Web Analytics token). */
   analytics: { cloudflareToken: "" },
 };

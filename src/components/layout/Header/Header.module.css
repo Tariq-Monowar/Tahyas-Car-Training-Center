@@ -21,6 +21,7 @@
 .link {
   position: relative; padding: 0.6rem 0.8rem; border-radius: 0.75rem;
   font-weight: 500; color: var(--text); transition: color 0.2s, background-color 0.2s;
+  white-space: nowrap;
 }
 .link:hover { color: var(--heading); background: color-mix(in srgb, var(--accent) 14%, transparent); }
 
@@ -70,21 +71,89 @@
   transform: translateX(105%); transition: transform 0.45s var(--ease);
   overflow-y: auto;
 }
+/* Mobile: full-screen bottom-sheet style */
+@media (max-width: 639px) {
+  .drawer {
+    inset: auto 0 0 0;
+    width: 100%;
+    height: auto;
+    max-height: 92svh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: 1.5rem 1.5rem 0 0;
+    padding: 0.75rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+    transform: translateY(105%);
+  }
+}
 .drawerRoot[data-open] .drawer { transform: none; }
+
+/* Drag handle on mobile */
+.drawerHandle {
+  display: none;
+  width: 36px; height: 4px; border-radius: 2px;
+  background: var(--border);
+  margin: 0 auto 1rem;
+}
+@media (max-width: 639px) { .drawerHandle { display: block; } }
+
 .close {
   align-self: flex-end; display: grid; place-items: center;
-  width: 48px; height: 48px; border-radius: 999px;
+  width: 44px; height: 44px; border-radius: 999px;
   border: 1px solid var(--border); background: transparent; color: var(--heading);
 }
+@media (max-width: 639px) { .close { display: none; } }
+
 .drawerNav { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1rem; }
 .drawerNav a {
-  display: flex; align-items: center; min-height: 3.25rem; padding-inline: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  min-height: 3.25rem; padding-inline: 1rem;
   border-radius: 1rem; font-family: var(--font-heading); font-weight: 600; font-size: var(--step-2);
   color: var(--heading);
   opacity: 0; transform: translateX(24px);
   transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), background-color 0.2s;
   transition-delay: calc(var(--i) * 45ms + 80ms);
 }
+@media (max-width: 639px) {
+  .drawerNav a {
+    font-size: var(--step-1);
+    min-height: 3.5rem;
+    transform: translateY(16px);
+    border-radius: 0.875rem;
+  }
+}
 .drawerRoot[data-open] .drawerNav a { opacity: 1; transform: none; }
 .drawerNav a:hover, .drawerNav a:focus-visible { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+
+.drawerNavIcon { font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+
 .drawerFooter { margin-top: auto; padding-top: 1.5rem; }
+
+/* Quick-action buttons in drawer footer (mobile) */
+.drawerActions {
+  display: none;
+}
+@media (max-width: 639px) {
+  .drawerActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+}
+.drawerActionBtn {
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  min-height: 3rem; border-radius: 0.875rem; font-weight: 700; font-size: 0.85rem;
+  text-decoration: none; transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.drawerActionBtn:active { transform: scale(0.95); }
+.drawerActionWa {
+  background: #22c55e; color: #fff;
+  box-shadow: 0 4px 12px rgba(34,197,94,0.3);
+}
+.drawerActionCall {
+  background: var(--surface); color: var(--heading);
+  border: 1.5px solid var(--border);
+}

@@ -1,4 +1,4 @@
-import { Anek_Bangla, Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
+import { Anek_Bangla, Hind_Siliguri, DM_Sans } from "next/font/google";
 import { site } from "@/config/site";
 import type { Lang } from "@/lib/i18n";
 import { jsonLd } from "@/lib/seo";
@@ -7,9 +7,9 @@ import "@/styles/globals.css";
 
 /* Fonts are self-hosted by Next.js at build time (no Google request at runtime, no layout shift).
    Only the body font is preloaded; heading/Latin fonts swap in without blocking the first paint. */
-const hind = Hind_Siliguri({ subsets: ["bengali", "latin"], weight: ["400", "600"], variable: "--font-hind", display: "swap" });
-const anek = Anek_Bangla({ subsets: ["bengali", "latin"], weight: ["700", "800"], variable: "--font-anek", display: "swap", preload: false });
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["500", "700", "800"], variable: "--font-jakarta", display: "swap", preload: false });
+const hind = Hind_Siliguri({ subsets: ["bengali", "latin"], weight: ["400", "500", "600"], variable: "--font-hind", display: "swap" });
+const anek = Anek_Bangla({ subsets: ["bengali", "latin"], weight: ["600", "700", "800"], variable: "--font-anek", display: "swap", preload: false });
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap", preload: false });
 
 /**
  * Runs before first paint:
@@ -22,7 +22,7 @@ const bootScript = `(function(){var d=document.documentElement;d.classList.add('
 export function RootDocument({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   const token = site.analytics.cloudflareToken;
   return (
-    <html lang={lang} className={`${hind.variable} ${anek.variable} ${jakarta.variable}`} suppressHydrationWarning>
+    <html lang={lang} className={`${hind.variable} ${anek.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f5ef" />

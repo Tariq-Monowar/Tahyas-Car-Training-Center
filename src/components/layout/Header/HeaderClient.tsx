@@ -60,6 +60,8 @@ export function LangSwitch({ to, href, label, className }: { to: string; href: s
   );
 }
 
+const NAV_ICONS = ["🏠", "🎓", "📋", "📍", "💬", "📞"];
+
 type MenuProps = {
   items: { href: string; label: string }[];
   menuLabel: string;
@@ -125,16 +127,35 @@ export function MobileMenu({ items, menuLabel, closeLabel, className }: MenuProp
               aria-label={menuLabel}
               inert={!open}
             >
+              <div className={styles.drawerHandle} aria-hidden="true" />
               <button type="button" className={styles.close} onClick={() => setOpen(false)} aria-label={closeLabel}>
                 <X aria-hidden="true" />
               </button>
               <nav className={styles.drawerNav}>
                 {items.map((i, idx) => (
                   <a key={i.href} href={i.href} onClick={() => setOpen(false)} style={{ "--i": idx } as React.CSSProperties}>
+                    <span className={styles.drawerNavIcon} aria-hidden="true">{NAV_ICONS[idx] ?? "▸"}</span>
                     {i.label}
                   </a>
                 ))}
               </nav>
+              <div className={styles.drawerActions}>
+                <a
+                  href="https://wa.me/8801320381356"
+                  className={`${styles.drawerActionBtn} ${styles.drawerActionWa}`}
+                  target="_blank" rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                >
+                  <span>💬</span> WhatsApp
+                </a>
+                <a
+                  href="tel:+8801320381356"
+                  className={`${styles.drawerActionBtn} ${styles.drawerActionCall}`}
+                  onClick={() => setOpen(false)}
+                >
+                  <span>📞</span> কল করুন
+                </a>
+              </div>
             </div>
           </div>,
           document.body,
