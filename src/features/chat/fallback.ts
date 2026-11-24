@@ -6,6 +6,19 @@ import { taka, type Lang } from "@/lib/i18n";
  * WhatsApp is suggested ONLY for enrollment / booking / unknown topics — not for
  * greetings or questions that can be fully answered here.
  */
+/** Keyboard-mash / one-word noise ("sds", "asdf") — answered locally, no AI tokens spent. */
+export function isGibberish(text: string): boolean {
+  const q = text.toLowerCase().trim();
+  if (!q || /[\u0980-\u09ff]/.test(q) || /\d/.test(q)) return false; // Bengali or numbers → real question
+  const word = q.replace(/[^a-z]/g, "");
+  if (!word) return false;
+  const known = /^(hi|hey|ok|okay|yes|no|ha|haha|lol|thx|ty|bye|fee|fees|vorti|bhorti|kemon|kmn|ki|hmm|tmi|ami|apni)$/;
+  if (known.test(word)) return false;
+  // short Banglish slurs must reach the AI (which answers them firmly), never a playful local reply
+  if (/^(bkl|mc|bc|mf|bsdk|mkc|bal|wtf|stfu)$/.test(word)) return false;
+  return (word.length <= 4 && !q.includes(" ")) || !/[aeiou]/.test(word);
+}
+
 export function fallbackReply(question: string, lang: Lang, previous: string[] = []): string {
   const q = question.toLowerCase().trim();
   const asked = previous.length;

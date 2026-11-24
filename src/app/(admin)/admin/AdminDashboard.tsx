@@ -10,6 +10,8 @@ import styles from "./admin.module.css";
 import AddStudentModal from "./AddStudentModal";
 import CertificateModal from "./CertificateModal";
 import CustomCertificateModal from "./CustomCertificateModal";
+import { useBottomSheet } from "./useBottomSheet";
+import StatusMenu from "./StatusMenu";
 import {
   STATUS_LABEL, GENDER_LABEL, DAY, bn, waNumber, dayStr, addDays, fmtDay, trainingInfo,
   type Status, type Enrollment, type Certificate,
@@ -392,6 +394,10 @@ export default function AdminDashboard() {
   }
   const certTarget = certFor ? items.find((e) => e._id === certFor) ?? null : null;
 
+  // details panel = draggable bottom sheet on phones
+  const closeDrawer = useCallback(() => setActiveId(null), []);
+  const sheet = useBottomSheet(!!active, closeDrawer);
+
   /* ── Render ── */
   const statCards: { key: Status | "all"; label: string; value: number; icon: React.ReactNode; tone: string }[] = [
     { key: "all", label: "মোট আবেদন", value: counts.total, icon: <Users size={18} />, tone: styles.toneBlue },
@@ -637,12 +643,7 @@ export default function AdminDashboard() {
                         <td data-label="কোর্স"><span className={styles.coursePill}>{e.course}</span></td>
                         <td data-label="ট্রেনিং"><TrainingCell e={e} /></td>
                         <td data-label="অবস্থা" onClick={(ev) => ev.stopPropagation()}>
-                          <select className={`${styles.statusSelect} ${styles[e.status]}`} value={e.status}
-                            onChange={(ev) => updateStatus([e._id], ev.target.value as Status)} aria-label="অবস্থা পরিবর্তন">
-                            <option value="pending">অপেক্ষমান</option>
-                            <option value="confirmed">নিশ্চিত</option>
-                            <option value="cancelled">বাতিল</option>
-                          </select>
+                          <StatusMenu value={e.status} name={e.name} onChange={(st) => updateStatus([e._id], st)} />
                         </td>
                         <td className={styles.actions} onClick={(ev) => ev.stopPropagation()}>
                           <a className={styles.actBtn} href={`tel:${e.phone}`} title="কল করুন"><Phone size={14} /></a>
@@ -677,9 +678,13 @@ export default function AdminDashboard() {
 
       {/* ── Detail drawer ── */}
       {active && (
-        <div className={styles.overlay} onClick={() => setActiveId(null)}>
-          <aside className={styles.drawer} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="আবেদনের বিস্তারিত">
-            <div className={styles.drawerHead}>
+        <div className={styles.overlay} onClick={sheet.close}>
+          <aside className={styles.drawer} style={sheet.sheetStyle} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="আবেদনের বিস্তারিত">
+            {sheet.mobile && (
+              <div className={styles.sheetGrab} {...sheet.handleProps} onClick={sheet.toggle}
+                role="button" aria-label="টেনে উপরে তুলুন বা নিচে নামান"><span /></div>
+            )}
+            <div className={styles.drawerHead} {...sheet.handleProps}>
               <div className={styles.person}>
                 <span className={`${styles.avatar} ${styles.avatarLg}`} data-status={active.status}>{initials(active.name)}</span>
                 <div className={styles.personText}>
@@ -687,7 +692,7 @@ export default function AdminDashboard() {
                   <span className={`${styles.badge} ${styles[active.status]}`}>{STATUS_LABEL[active.status]}</span>
                 </div>
               </div>
-              <button className={styles.iconBtn} onClick={() => setActiveId(null)} aria-label="বন্ধ করুন"><X size={18} /></button>
+              <button className={styles.iconBtn} onClick={sheet.close} aria-label="বন্ধ করুন"><X size={18} /></button>
             </div>
 
             <div className={styles.drawerBody}>

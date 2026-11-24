@@ -1,0 +1,8 @@
+Fonts used to draw course-completion certificates (latin subset, from Google Fonts).
+All are licensed under the SIL Open Font License 1.1 — https://openfontlicense.org
+
+cinzel.woff2                 Cinzel — Natanael Gama
+cormorant.woff2              Cormorant Garamond — Christian Thalmann
+cormorant-italic.woff2       Cormorant Garamond Italic — Christian Thalmann
+great-vibes.woff2            Great Vibes — TypeSETit
+herr-von-muellerhoff.woff2   Herr Von Muellerhoff — Sudtipos
