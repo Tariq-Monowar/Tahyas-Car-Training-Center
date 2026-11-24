@@ -125,7 +125,14 @@
 .drawerRoot[data-open] .drawerNav a { opacity: 1; transform: none; }
 .drawerNav a:hover, .drawerNav a:focus-visible { background: color-mix(in srgb, var(--accent) 16%, transparent); }
 
-.drawerNavIcon { font-size: 1.1rem; line-height: 1; flex-shrink: 0; opacity: 0.7; }
+.drawerNavIcon {
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: 2rem; height: 2rem; border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-alt));
+  color: var(--accent-ink);
+}
+.drawerNavIcon svg { width: 16px; height: 16px; }
 
 .drawerFooter { margin-top: auto; padding-top: 1.5rem; }
 

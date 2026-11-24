@@ -60,7 +60,23 @@ export function LangSwitch({ to, href, label, className }: { to: string; href: s
   );
 }
 
-const NAV_ICONS = ["🏠", "🎓", "📋", "📍", "💬", "📞"];
+/* Professional SVG icons for each nav item (order matches nav array in copy.ts) */
+const NAV_SVG_ICONS = [
+  /* 0 Courses — graduation cap */
+  <svg key="courses" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  /* 1 Why us — award / star shield */
+  <svg key="why" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
+  /* 2 Road rules — traffic light */
+  <svg key="road" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="7" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="17" r="1.5" fill="currentColor" stroke="none"/></svg>,
+  /* 3 Licence — id card */
+  <svg key="license" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h3"/></svg>,
+  /* 4 Enrol — clipboard with pencil */
+  <svg key="enroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 12v6M9 15h6"/></svg>,
+  /* 5 FAQ — speech bubble with ? */
+  <svg key="faq" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>,
+  /* 6 Location — map pin */
+  <svg key="loc" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>,
+];
 
 type MenuProps = {
   items: { href: string; label: string }[];
@@ -163,7 +179,7 @@ export function MobileMenu({ items, menuLabel, closeLabel, className }: MenuProp
               <nav className={styles.drawerNav}>
                 {items.map((i, idx) => (
                   <a key={i.href} href={i.href} onClick={() => setOpen(false)} style={{ "--i": idx } as React.CSSProperties}>
-                    <span className={styles.drawerNavIcon} aria-hidden="true">{NAV_ICONS[idx] ?? "▸"}</span>
+                    <span className={styles.drawerNavIcon} aria-hidden="true">{NAV_SVG_ICONS[idx]}</span>
                     {i.label}
                   </a>
                 ))}
