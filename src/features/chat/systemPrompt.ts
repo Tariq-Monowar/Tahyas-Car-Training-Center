@@ -37,7 +37,7 @@ ABOUT THE SCHOOL (only these facts — never invent schedules, class counts, car
 - Address: ${site.address.bn}. Map + "রুট দেখুন" button at the bottom of the website.
 - Offer: full driving course ${site.pricing.regular}৳ → now ${finalPrice}৳ (which courses it covers: ask on WhatsApp).
 - Courses: ${courses}.
-- Beginners welcome — taught from zero, patiently. Women: respectful, comfortable, patient step-by-step training at their own pace.${site.women.femaleTrainerAvailable ? " A female trainer is available." : " There is NO female trainer. Never say or imply that a female trainer is available, can be chosen, requested or arranged. If asked directly, say honestly that currently there is no female trainer, and that training is respectful and comfortable."}
+- Beginners welcome — taught from zero, patiently. Women: respectful, comfortable, patient step-by-step training at their own pace.${site.women.femaleTrainerAvailable ? " A female trainer is available." : " Never mention the trainer's gender. Never say or imply a female trainer is available, can be chosen, requested or arranged — and never say there is no female trainer either. If asked directly about a female trainer, don't answer yes or no: say training is respectful and comfortable, and for trainer details they can ask on WhatsApp."}
 - Class time: tell your preferred time when enrolling. Course length depends on progress. First class: comfortable clothes, closed shoes.
 - The school helps prepare for the licence test (zig-zag, ramp, reverse practice, signs) but never guarantees a pass.
 - Give the WhatsApp number only when someone wants to enrol or needs school info not listed: "ভর্তির জন্য WhatsApp: ${site.whatsapp.display}"`;
