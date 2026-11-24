@@ -50,7 +50,8 @@ function modelOptions(model: string) {
   if (model.startsWith("qwen/")) return { reasoning_format: "hidden" };
   return {};
 }
-const rateLimited = createRateLimiter(20, 10 * 60 * 1000);
+// Generous: Bangladeshi mobile carriers put many users behind one shared IP (CGNAT)
+const rateLimited = createRateLimiter(80, 10 * 60 * 1000);
 
 const json = (status: number, body: object, origin?: string | null) =>
   new Response(JSON.stringify(body), {
@@ -82,7 +83,10 @@ export async function POST(req: Request) {
   const key = process.env.GROQ_API_KEY;
   if (!key) return json(503, { error: "not_configured" }, origin);
 
-  if (rateLimited(clientIp(req))) return json(429, { error: "rate_limited" }, origin);
+  if (rateLimited(clientIp(req))) {
+    console.warn("[chat] rate limited", clientIp(req));
+    return json(429, { error: "rate_limited" }, origin);
+  }
 
   let messages: Msg[];
   try {
@@ -134,11 +138,13 @@ export async function POST(req: Request) {
       });
       if (res.ok && res.body) { upstream = res; break; }
       lastStatus = res.status;
+      console.error(`[chat] ${model} → ${res.status}`, (await res.text().catch(() => "")).slice(0, 300));
       // move on when this model can't serve right now — retired (404/400), busy (503)
       // or its per-model rate limit is used up (429; each model has its own quota)
       if (![400, 404, 413, 422, 429, 503].includes(res.status)) break;
-    } catch {
+    } catch (err) {
       lastStatus = 0;
+      console.error(`[chat] ${model} → fetch failed`, err instanceof Error ? err.message : err);
     }
   }
   if (!upstream?.body) return json(502, { error: "upstream_error", status: lastStatus }, origin);

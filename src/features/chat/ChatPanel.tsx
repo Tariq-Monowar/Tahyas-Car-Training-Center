@@ -174,12 +174,18 @@ export default function ChatPanel({ lang, strings, open, onClose }: { lang: Lang
     }
 
     try {
-      const res = await fetch("/api/chat", {
+      const send = () => fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history.slice(-8) }),
-      });
-      if (!res.ok || !res.body) throw new Error(String(res.status));
+      }).catch(() => null);
+      let res = await send();
+      // One quiet retry before giving up on the AI (brief upstream hiccups, cold starts)
+      if (!res || !res.ok || !res.body) {
+        await new Promise((r) => setTimeout(r, 1200));
+        res = await send();
+      }
+      if (!res || !res.ok || !res.body) throw new Error(String(res?.status ?? "network"));
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let answer = "";
