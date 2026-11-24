@@ -30,6 +30,12 @@ export function fallbackReply(question: string, lang: Lang): string {
       ? "এই ভাষায় কথা বলবেন না। সম্মান দিলে সম্মান পাবেন। 🛑"
       : "Please use respectful language. I'm here to help, not to be disrespected. 🛑";
 
+  // Follow-up / context continuation
+  if (has("এই বিষয়ে", "আরো বলো", "আরো বলুন", "বিস্তারিত", "আরো বিস্তারিত", "বিস্তা", "আরও", "আরো", "more about", "tell me more", "explain more"))
+    return lang === "bn"
+      ? "কোন বিষয়ে আরো জানতে চান? কোর্স, ভর্তি, নারীদের ব্যবস্থা, লাইসেন্স — নির্দিষ্টভাবে জিজ্ঞেস করুন! 😊"
+      : "Which topic would you like more details on? Ask me specifically about courses, enrolment, women's training or the licence process!";
+
   // Greetings — no WhatsApp needed
   if (has("সালাম", "আদাব", "হ্যালো", "হেলো", "নমস্কার", "hi ", "hello", "assalam", "salam", "আসসালামু", "ওয়ালাইকুম"))
     return lang === "bn"

@@ -10,7 +10,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
 const MAX_MESSAGE_CHARS = 400;
 const MAX_HISTORY = 5;
 const MAX_TOKENS = 300;
