@@ -211,8 +211,8 @@ export const site = {
     {
       q: { bn: "নারীরা কি নিরাপদ ও স্বস্তিতে শিখতে পারবেন?", en: "Can women learn safely and comfortably?" },
       a: {
-        bn: "হ্যাঁ, নারীদের জন্য বিশেষ ব্যবস্থা আছে। প্রশিক্ষক পছন্দসহ যেকোনো বিষয় ভর্তির আগে WhatsApp এ জানান।",
-        en: "Yes, we have special arrangements for women. Share any preference, including trainer choice, on WhatsApp before enrolling.",
+        bn: "হ্যাঁ। সম্মানজনক ও স্বস্তিদায়ক পরিবেশে, ধৈর্য নিয়ে আপনার গতিতে শেখানো হয়। কোনো প্রশ্ন থাকলে ভর্তির আগে WhatsApp এ জানান।",
+        en: "Yes. Training is respectful, comfortable and patient, at your own pace. Any questions — ask on WhatsApp before enrolling.",
       },
     },
     {

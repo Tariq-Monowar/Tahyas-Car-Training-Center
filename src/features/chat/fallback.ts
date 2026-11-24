@@ -6,8 +6,14 @@ import { taka, type Lang } from "@/lib/i18n";
  * WhatsApp is suggested ONLY for enrollment / booking / unknown topics — not for
  * greetings or questions that can be fully answered here.
  */
-export function fallbackReply(question: string, lang: Lang): string {
-  const q = question.toLowerCase();
+export function fallbackReply(question: string, lang: Lang, previous: string[] = []): string {
+  const q = question.toLowerCase().trim();
+  const asked = previous.length;
+  /** Pick a variant that wasn't used yet in this chat (falls back to rotating). */
+  const pick = (options: string[]) => options.find((o) => !previous.includes(o)) ?? options[asked % options.length];
+  const topicsHint = lang === "bn"
+    ? "কোর্স ও ফি, নারীদের ট্রেনিং, লাইসেন্স বা ভর্তি — কোনটা জানতে চান?"
+    : "Courses & fees, women's training, licence or enrolment — which would you like?";
   const has = (...words: string[]) => words.some((w) => q.includes(w));
   const courseList = site.courses.map((c) => "• " + c.title[lang]).join("\n");
   const wa = lang === "bn"
@@ -57,8 +63,8 @@ export function fallbackReply(question: string, lang: Lang): string {
   // Women — answer, no WhatsApp
   if (has("নারী", "মহিলা", "মেয়ে", "আপু", "women", "woman", "female", "lady"))
     return lang === "bn"
-      ? "নারীদের জন্য বিশেষ ব্যবস্থা আছে — স্বস্তিদায়ক ও সম্মানজনক পরিবেশে ধাপে ধাপে শেখানো হয়। প্রশিক্ষক পছন্দ WhatsApp-এ আগে জানাতে পারেন।"
-      : "We have special arrangements for women — comfortable, respectful, step-by-step training. You can discuss trainer preference on WhatsApp.";
+      ? "নারীরাও স্বস্তিদায়ক ও সম্মানজনক পরিবেশে, ধৈর্য নিয়ে নিজের গতিতে ধাপে ধাপে শিখতে পারেন।"
+      : "Women learn in a comfortable, respectful setting — patient, step-by-step, at their own pace.";
 
   // Address — answer, no WhatsApp
   if (has("ঠিকানা", "কোথায়", "লোকেশন", "ম্যাপ", "address", "where", "location", "map"))
@@ -78,16 +84,34 @@ export function fallbackReply(question: string, lang: Lang): string {
       ? `ভর্তি ও ক্লাসের সময় ঠিক করতে WhatsApp করুন: ${site.whatsapp.display}`
       : `To enrol and book your class, WhatsApp us: ${site.whatsapp.display}`;
 
-  // Fun/off-topic — witty redirect
-  const funnyBn = [
-    "হাহা, আমি গাড়ির বিশেষজ্ঞ, এটা একটু আমার লেনের বাইরে! 😄 তবে গাড়ি চালানো শিখতে চাইলে আমি রেডি!",
-    "দারুণ প্রশ্ন, কিন্তু আমার স্টিয়ারিং শুধু ড্রাইভিং-এর দিকে ঘোরে 🚗 গাড়ি সম্পর্কে কিছু জানতে চাও?",
-    "আমি ড্রাইভিং-এর ব্যাপারে এক্সপার্ট, বাকি বিষয়ে সিগনাল অফ! 😅 ভর্তি বা কোর্স নিয়ে জিজ্ঞেস করো!",
-  ];
-  const funnyEn = [
-    "Ha! That's outside my lane 🚗 I'm only an expert on driving — want to know about our courses?",
-    "My steering only turns toward driving topics 😄 Anything about cars or enrolment I can help with!",
-  ];
-  if (lang === "bn") return funnyBn[Math.floor(Date.now() / 1000) % funnyBn.length];
-  return funnyEn[Math.floor(Date.now() / 1000) % funnyEn.length];
+  // Thanks / bye
+  if (has("ধন্যবাদ", "থ্যাংক", "thanks", "thank you", "thx", "বিদায়", "bye"))
+    return pick(lang === "bn"
+      ? ["আপনাকেও ধন্যবাদ! নিরাপদে থাকুন 🚗", "খুশি হলাম সাহায্য করতে পেরে! আবার দরকার হলে লিখবেন।"]
+      : ["You're welcome! Drive safe 🚗", "Happy to help — message anytime!"]);
+
+  // Laughter — laugh along, then a light nudge
+  if (/^(ha|he|লো|হা|হে|lol|lmao|😂|🤣|😄|😆)+[!. ]*$/i.test(q.replace(/\s+/g, "")))
+    return pick(lang === "bn"
+      ? ["হা হা 😄 আপনার মুড তো একদম গ্রিন সিগন্যাল! গাড়ি চালানো নিয়ে কিছু জানতে চান?",
+         "হাসি দেখে ভালো লাগল! 😄 চাইলে কোর্স বা ফি জানিয়ে দিতে পারি।",
+         "হা হা! হাসতে হাসতে ড্রাইভিংও শিখে ফেলা যায় 😉 কোন বিষয়ে সাহায্য করব?"]
+      : ["Haha 😄 Love the mood! Anything about driving I can help with?",
+         "Glad you're smiling! Want to hear about our courses?"]);
+
+  // Gibberish / very short input — playful, then suggest topics
+  if (q.length <= 4 || !/[aeiou\u0980-\u09ff]/i.test(q))
+    return pick(lang === "bn"
+      ? [`কিবোর্ডে আঙুল পিছলে গেল মনে হচ্ছে 😄 ${topicsHint}`,
+         `ঠিক বুঝলাম না — আরেকটু লিখবেন? ${topicsHint}`,
+         "মনে হচ্ছে টাইপিংয়ে গিয়ার শিফট মিস হয়েছে 😅 নিচের যেকোনো বিষয়ে চাপ দিয়েও জিজ্ঞেস করতে পারেন।"]
+      : [`Looks like the keyboard slipped 😄 ${topicsHint}`, `I didn't quite get that — could you say a bit more? ${topicsHint}`]);
+
+  // Anything else — friendly, honest redirect (varied, never the same twice in a row)
+  return pick(lang === "bn"
+    ? [`এই বিষয়ে আমি নিশ্চিত নই, তবে ড্রাইভিং নিয়ে যেকোনো কিছু জিজ্ঞেস করতে পারেন! ${topicsHint}`,
+       "প্রশ্নটা মজার! তবে আমার আসল দক্ষতা ড্রাইভিং শেখানো নিয়ে 🚗 কোর্স বা ভর্তি নিয়ে জানতে চান?",
+       `এটার উত্তর আমার জানা নেই। বিস্তারিত জানতে WhatsApp করতে পারেন: ${site.whatsapp.display}`]
+    : [`I'm not sure about that, but ask me anything about driving! ${topicsHint}`,
+       `I don't know that one. For anything else, WhatsApp us: ${site.whatsapp.display}`]);
 }

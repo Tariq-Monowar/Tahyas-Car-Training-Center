@@ -94,11 +94,11 @@ export const women = {
       desc: { bn: "তাড়াহুড়ো নেই — প্রতিটি ধাপ বুঝে তারপর পরেরটা।", en: "No rush — master each step before the next." },
     },
     {
-      icon: "users",
-      title: { bn: "প্রশিক্ষক পছন্দের সুযোগ", en: "Trainer preference" },
+      icon: "compass",
+      title: { bn: "সুবিধামতো ক্লাসের সময়", en: "Class time that suits you" },
       desc: {
-        bn: "প্রশিক্ষক নিয়ে আপনার পছন্দ আগে থেকে জানান — আলোচনা করে ব্যবস্থা করা হবে।",
-        en: "Share your trainer preference in advance — we'll discuss and arrange.",
+        bn: "ভর্তির সময় আপনার সুবিধাজনক ক্লাসের সময় জানান।",
+        en: "Tell us your preferred class time when you enrol.",
       },
     },
   ] as Item[],
