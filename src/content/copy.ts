@@ -13,6 +13,7 @@ export const nav: { id: string; label: Text; href?: Record<"bn" | "en", string> 
   { id: "why-us", label: { bn: "কেন আমরা", en: "Why us" } },
   { id: "road-rules", label: { bn: "ট্রাফিক নিয়ম", en: "Road rules" }, href: { bn: "/road-rules", en: "/en/road-rules" } },
   { id: "license", label: { bn: "লাইসেন্স", en: "Licence" }, href: { bn: "/license", en: "/en/license" } },
+  { id: "enroll", label: { bn: "ভর্তি আবেদন", en: "Enrol now" }, href: { bn: "/enroll", en: "/enroll" } },
   { id: "faq", label: { bn: "প্রশ্নোত্তর", en: "FAQ" } },
   { id: "location", label: { bn: "ঠিকানা", en: "Location" } },
 ];
